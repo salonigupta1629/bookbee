@@ -67,19 +67,22 @@ import React from 'react';
 import DbConnect from '@/utils/DbConnect';
 import BookModel from '@/model/BookModel';
 import { BookForm } from './_components/book-form';
+import Category from '@/model/Category';
 import { BookCalling } from './_components/book-calling';
 
 const page = async () => {
   // Connect to the database
   DbConnect();
 
+  const categories = await Category.find({});
+
   // Fetch all books with populated category data
-  const books = await BookModel.find();
+  const books = await BookModel.find({});
 
   return (
     <div className="flex flex-1 gap-6 p-9">
       <div className="w-4/12 flex h-auto">
-        <BookForm/>
+        <BookForm categories={categories}/>
       </div>
       <div className="w-8/12 flex">
         <BookCalling books={books} />

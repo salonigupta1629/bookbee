@@ -58,30 +58,31 @@
 
 
 
-
-
-
-
-// "use client"
-// import {AiOutlineDelete} from "react-icons/ai";
+// "use client";
+// import { AiOutlineDelete } from "react-icons/ai";
 // import { FaEdit } from "react-icons/fa";
 // import { Card, Typography } from "@material-tailwind/react";
- 
-// export function BookCalling({books}) {
-// const TABLE_HEAD = [ "Sno.","BookId","Title","Author","Category","Count","Action"];
- 
+// // import Searchbar from "../../components/searchbar";
+// import Search from "../../components/search";
+
+// const TABLE_HEAD = ["Sno.", "BookId", "Title", "Author", "Category", "Count", "Action"];
+
+// export function BookCalling({ books }) {
 //   return (
-//     <Card className="h-full w-full overflow-scroll">
+//     <Card className="h-full w-full overflow-scroll ">
+//         <Typography variant="h4" className="mb-5 p-4 font-medium text-lg border-b-2 border-gray" color="blue-gray">
+//           <div className="flex flex-1 justify-between items-center">
+//     <span >Book List </span>
+//     {/* <span><Searchbar placeholder="Enter the Book Id"/></span> */}
+//     <span><Search books={books}/></span>
+//           </div>
+//   </Typography>
 //       <table className="w-full min-w-max table-auto text-left">
 //         <thead>
 //           <tr>
 //             {TABLE_HEAD.map((head) => (
 //               <th key={head} className="border-b border-blue-gray-100 bg-blue-gray-50 p-4">
-//                 <Typography
-//                   variant="small"
-//                   color="blue-gray"
-//                   className="font-normal leading-none opacity-70"
-//                 >
+//                 <Typography variant="small" color="blue-gray" className="font-normal leading-none opacity-70">
 //                   {head}
 //                 </Typography>
 //               </th>
@@ -89,9 +90,9 @@
 //           </tr>
 //         </thead>
 //         <tbody>
-//           {books.map(({ _id,bookName,authorName,bookCategory,bookCount  }, index) => (
+//           {books.map(({ _id, bookName, authorName, bookCategory, bookCount }, index) => (
 //             <tr key={bookName} className="even:bg-blue-gray-50/50">
-//                  <td className="p-4">
+//               <td className="p-4">
 //                 <Typography variant="small" color="blue-gray" className="font-normal">
 //                   {index + 1}
 //                 </Typography>
@@ -113,22 +114,23 @@
 //               </td>
 //               <td className="p-4">
 //                 <Typography variant="small" color="blue-gray" className="font-normal">
-//                   {bookCategory?.catTitle}
+//                   {bookCategory?.catTitle || 'N/A'}
 //                 </Typography>
 //               </td>
 //               <td className="p-4">
 //                 <Typography variant="small" color="blue-gray" className="font-normal">
 //                   {bookCount}
 //                 </Typography>
-//               </td>        
+//               </td>
 //               <td className="p-4 flex gap-4">
 //                 <Typography as="a" href="#" variant="small" color="blue-gray" className="font-medium">
-//                 <FaEdit/>
+//                   <FaEdit />
 //                 </Typography>
 //                 <Typography as="a" href="#" variant="small" color="blue-gray" className="font-medium">
-//                 <AiOutlineDelete/>
+//                   <AiOutlineDelete />
 //                 </Typography>
 //               </td>
+              
 //             </tr>
 //           ))}
 //         </tbody>
@@ -138,26 +140,34 @@
 // }
 
 
+"use client";  // Add this line at the very top of your file
 
-
-"use client";
+import { useState, useEffect } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { FaEdit } from "react-icons/fa";
 import { Card, Typography } from "@material-tailwind/react";
-import Searchbar from "../../components/searchbar";
+import Search from "../../components/search";
 
 const TABLE_HEAD = ["Sno.", "BookId", "Title", "Author", "Category", "Count", "Action"];
 
 export function BookCalling({ books }) {
+  console.log(books)
+  const [filteredBooks, setFilteredBooks] = useState(books); // State to hold the filtered books
+
+  // Use effect to update filteredBooks whenever the `books` prop changes
+  useEffect(() => {
+    setFilteredBooks(books);
+  }, [books]);
 
   return (
     <Card className="h-full w-full overflow-scroll ">
-        <Typography variant="h4" className="mb-5 p-4 font-medium text-lg border-b-2 border-gray" color="blue-gray">
-          <div className="flex flex-1 justify-between items-center">
-    <span >Book List </span>
-    <span><Searchbar placeholder="Enter the Book Id"/></span>
-          </div>
-  </Typography>
+      <Typography variant="h4" className="mb-5 p-4 font-medium text-lg border-b-2 border-gray" color="blue-gray">
+        <div className="flex flex-1 justify-between items-center">
+          <span>Book List</span>
+          {/* Pass the filteredBooks setter to Search component */}
+    <Search books={books} setFilteredBooks={setFilteredBooks} />
+        </div>
+      </Typography>
       <table className="w-full min-w-max table-auto text-left">
         <thead>
           <tr>
@@ -171,8 +181,8 @@ export function BookCalling({ books }) {
           </tr>
         </thead>
         <tbody>
-          {books.map(({ _id, bookName, authorName, bookCategory, bookCount }, index) => (
-            <tr key={bookName} className="even:bg-blue-gray-50/50">
+          {filteredBooks.map(({ _id, bookName, authorName, bookCategory, bookCount }, index) => (
+            <tr key={_id} className="even:bg-blue-gray-50/50">
               <td className="p-4">
                 <Typography variant="small" color="blue-gray" className="font-normal">
                   {index + 1}
@@ -195,7 +205,7 @@ export function BookCalling({ books }) {
               </td>
               <td className="p-4">
                 <Typography variant="small" color="blue-gray" className="font-normal">
-                  {bookCategory?.catTitle || 'N/A'}
+                  {bookCategory.catTitle || 'N/A'}
                 </Typography>
               </td>
               <td className="p-4">

@@ -5,8 +5,9 @@ import Category from "@/model/Category";
 
 const CategoryCalling = async () => {
     DbConnect();
-
-    const category = await Category.find({});
+    
+    const categories = await Category.find({});
+    console.log(categories)
     return (
         <div className='flex flex-col w-[1400px]'>
     <p className='  mb-2 p-4 text-xl font-sans text-left font-bold'> Category List</p>
@@ -22,7 +23,7 @@ const CategoryCalling = async () => {
                 </thead>
                 <tbody>
                     {
-                        category.map((cat, i) => (
+                        categories.map((cat, i) => (
                             <tr key={i} >
                                 <td className='border border-black p-3'>{cat._id}</td>
                                 <td className='border border-black p-3'>{cat.catTitle}</td>

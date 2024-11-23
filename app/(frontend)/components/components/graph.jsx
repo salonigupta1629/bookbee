@@ -26,7 +26,7 @@ const Graph = () => {
         data: {
           labels: ['Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov'],
           datasets: [{
-            label: '# of Votes',
+            label: '# of Students',
             data: [12, 19, 3, 5, 2, 3],
             borderWidth: 1
           }]
@@ -43,7 +43,7 @@ const Graph = () => {
   }, []);
 
   return (
-    <div className=' h-[600px]'>
+    <div className=' h-[500px] w-[1200px] pl-8 mt-4 '>
       <canvas ref={canvasRef}></canvas>
     </div>
   );

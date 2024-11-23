@@ -1,21 +1,27 @@
 "use client"
+import Book from '@/model/BookModel';
+import DbConnect from '@/utils/DbConnect';
 import React, { useState } from 'react'
 
 const Searchbar = ({placeholder}) => {
     const [searchQuery, setSearchQuery] = useState('');
 
     const handleSearch = async () => {
+
         if (!searchQuery) {
           alert('Please enter a Category ID to search.');
           return;
         }
     
         try {
-          const result = await Category.find({ _id: searchQuery });
+          
+          DbConnect();
+          const result = await Book.find({ _id: searchQuery });
           if (result.length > 0) {
-            setSearchResults(result); // Update the search results
+            setSearchResults(result);
             alert('Category found!');
-          } else {
+          } 
+          else {
             alert('Category not found!');
             setSearchResults([]);
           }
@@ -25,7 +31,6 @@ const Searchbar = ({placeholder}) => {
       };
   return (
     <div>
-          {/* Search Bar and Button */}
       <div className="mb-4 flex items-center space-x-2">
         <input
           type="text"

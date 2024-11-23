@@ -79,175 +79,92 @@
 
 
 
-// "use client"
-// import { Button, Card, Input, Option, Select, Typography } from "@material-tailwind/react";
-// import { useState } from "react";
-// import DbConnect from "@/utils/DbConnect";
-// import { handleInsertBook } from "@/utils/action";
-   
-// export function BookForm() {
-// DbConnect();
-//     const [bookName,setBookName] = useState("");
-//     const [authorName,setAuthorName] = useState("");
-//     const [bookCategory,setBookCategory] = useState("");
-//     const [bookCount,setBookCount] = useState("");
-
-//     return (
-//        <Card color="transparent" shadow={false} className='flex flex-1 flex-col border-2 border-gray p-5' >
-//         <Typography variant="h4" color="blue-gray" className="pb-4 border-b-2 border-gray font-medium text-lg">
-//         Add a new Book
-//         </Typography>
-//           <div className="mb-1 flex flex-col gap-4">
-//             <Typography variant="h6" color="blue-gray" className="-mb-3 mt-2">
-//               Title
-//             </Typography>
-//             <Input
-//               size="lg"
-//               placeholder="Enter Book Name"
-//               value={bookName}
-//               onChange={(e) => setBookName(e.target.value)}
-//               className=" !border-t-blue-gray-400 focus:!border-t-gray-900"
-//               labelProps={{
-//                 className: "before:content-none after:content-none",
-//               }}
-//             />
-//             <Typography variant="h6" color="blue-gray" className="-mb-3">
-//               Author
-//             </Typography>
-//             <Input
-//               size="lg"
-//               placeholder="Enter Author Name"
-//               value={authorName}
-//               onChange={(e) => setAuthorName(e.target.value)}
-//               className=" !border-t-blue-gray-400 focus:!border-t-gray-900"
-//               labelProps={{
-//                 className: "before:content-none after:content-none",
-//               }}
-//             />
-//             <Typography variant="h6" color="blue-gray" className="-mb-3">
-//               Category
-//             </Typography>
-//             <div className="w-72 ">
-//             <Select className="w-96 h-10"
-//               value={bookCategory} // bind the Select value to the state
-//               onChange={(value) => setBookCategory(value)} // Update the state on change
-//             > 
-             
-//                <Option value="Thriller">Thriller</Option>
-//                <Option value="Philosophy">Philosophy</Option>
-//                <Option value="Drama">Drama</Option>
-//                <Option value="Fiction">Fiction</Option>
-//                <Option value="Non-Fiction">Non-Fiction</Option>
-//             </Select>
-//           </div> 
-
-
-//               <Typography variant="h6" color="blue-gray" className="-mb-3">
-//               Count
-//             </Typography>
-//             <Input
-//               type="number"
-//               size="lg"
-//               value={bookCount}
-//               onChange={(e) => setBookCount(e.target.value)}
-//               className=" !border-t-blue-gray-200  focus:!border-t-gray-900"
-//               labelProps={{
-//                 className: "before:content-none after:content-none",
-//               }}
-//             />
-//           </div>
-//           <Button className="mt-6 text-white bg-black rounded-lg px-5 py-3 justify-between items-center " onClick={() => handleInsertBook(bookName,authorName,bookCategory,bookCount)} fullWidth>
-//             Save
-//           </Button>
-//       </Card>
-//     );
-//   }
-
-
-
-
-
-"use client";
+"use client"
 import { Button, Card, Input, Option, Select, Typography } from "@material-tailwind/react";
 import { useState } from "react";
+import DbConnect from "@/utils/DbConnect";
 import { handleInsertBook } from "@/utils/action";
+   
+export function BookForm({categories}) {
+DbConnect();
+    const [bookName,setBookName] = useState("");
+    const [authorName,setAuthorName] = useState("");
+    const [bookCategory,setBookCategory] = useState("");
+    const [bookCount,setBookCount] = useState("");
 
-export function BookForm({ categories }) { // Receive categories as prop
-  console.log(categories);
-  const [bookName, setBookName] = useState("");
-  const [authorName, setAuthorName] = useState("");
-  const [bookCategory, setBookCategory] = useState("");
-  const [bookCount, setBookCount] = useState("");
-
-  return (
-    <Card color="transparent" shadow={false} className="flex flex-1 flex-col border-2 border-gray p-5">
-      <Typography variant="h4" color="blue-gray" className="pb-4 border-b-2 border-gray font-medium text-lg">
+    return (
+       <Card color="transparent" shadow={false} className='flex flex-1 flex-col border-2 border-gray p-5' >
+        <Typography variant="h4" color="blue-gray" className="pb-4 border-b-2 border-gray font-medium text-lg">
         Add a new Book
-      </Typography>
-      <div className="mb-1 flex flex-col gap-4">
-        <Typography variant="h6" color="blue-gray" className="-mb-3 mt-2">
-          Title
         </Typography>
-        <Input
-          size="lg"
-          placeholder="Enter Book Name"
-          value={bookName}
-          onChange={(e) => setBookName(e.target.value)}
-          className=" !border-t-blue-gray-400 focus:!border-t-gray-900"
-        />
-        <Typography variant="h6" color="blue-gray" className="-mb-3">
-          Author
-        </Typography>
-        <Input
-          size="lg"
-          placeholder="Enter Author Name"
-          value={authorName}
-          onChange={(e) => setAuthorName(e.target.value)}
-          className=" !border-t-blue-gray-400 focus:!border-t-gray-900"
-        />
-        <Typography variant="h6" color="blue-gray" className="-mb-3">
-          Category
-        </Typography>
-        <div className="w-72">
-          <Select
-            value={bookCategory} // bind the Select value to the state
-            onChange={(value) => setBookCategory(value)} // Update the state on change
-            className="w-96 h-10"
-          >
-            <Option value="" selected disabled>
-              Select Category here
-            </Option>
-            {categories && categories.length > 0 ? (
-              categories.map((category) => (
-                <Option key={category._id} value={category._id}>
-                  {category.catTitle}
-                </Option>
-              ))
-            ) : (
-              <Option disabled>No categories available</Option>
-            )}
-          </Select>
-        </div>
+          <div className="mb-1 flex flex-col gap-4">
+            <Typography variant="h6" color="blue-gray" className="-mb-3 mt-2">
+              Title
+            </Typography>
+            <Input
+              size="lg"
+              placeholder="Enter Book Name"
+              value={bookName}
+              onChange={(e) => setBookName(e.target.value)}
+              className=" !border-t-blue-gray-400 focus:!border-t-gray-900"
+              labelProps={{
+                className: "before:content-none after:content-none",
+              }}
+            />
+            <Typography variant="h6" color="blue-gray" className="-mb-3">
+              Author
+            </Typography>
+            <Input
+              size="lg"
+              placeholder="Enter Author Name"
+              value={authorName}
+              onChange={(e) => setAuthorName(e.target.value)}
+              className=" !border-t-blue-gray-400 focus:!border-t-gray-900"
+              labelProps={{
+                className: "before:content-none after:content-none",
+              }}
+            />
+            <Typography variant="h6" color="blue-gray" className="-mb-3">
+              Category
+            </Typography>
+            <div className="w-72 ">
+            <Select className="w-96 h-10"
+              value={bookCategory} // bind the Select value to the state
+              onChange={(value) => setBookCategory(value)} // Update the state on change
+            > 
+             
+              <Option value=" " selected disabled >Select Category here</Option>
+                        {
+                            categories.map((category) => (
+                              <Option key={category._id} value={category._id}>{category.catTitle}</Option>
+                            ))
+                        }
+            </Select>
+          </div> 
 
-        <Typography variant="h6" color="blue-gray" className="-mb-3">
-          Count
-        </Typography>
-        <Input
-          type="number"
-          size="lg"
-          value={bookCount}
-          onChange={(e) => setBookCount(e.target.value)}
-          className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
-        />
-      </div>
-      <Button
-        className="mt-6 text-white bg-black rounded-lg px-5 py-3 justify-between items-center"
-        onClick={() => handleInsertBook(bookName, authorName, bookCategory, bookCount)}
-        fullWidth
-      >
-        Save
-      </Button>
-    </Card>
-  );
-}
+
+              <Typography variant="h6" color="blue-gray" className="-mb-3">
+              Count
+            </Typography>
+            <Input
+              type="number"
+              size="lg"
+              value={bookCount}
+              onChange={(e) => setBookCount(e.target.value)}
+              className=" !border-t-blue-gray-200  focus:!border-t-gray-900"
+              labelProps={{
+                className: "before:content-none after:content-none",
+              }}
+            />
+          </div>
+          <Button className="mt-6 text-white bg-black rounded-lg px-5 py-3 justify-between items-center " onClick={() => handleInsertBook(bookName,authorName,bookCategory,bookCount)} fullWidth>
+            Save
+          </Button>
+      </Card>
+    );
+  }
+
+
+
+
 

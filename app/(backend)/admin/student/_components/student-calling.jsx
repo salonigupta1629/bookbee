@@ -52,17 +52,26 @@
 import { Card, Typography } from "@material-tailwind/react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { FaEdit } from "react-icons/fa";
-import Searchbar from "../../components/searchbar";
+import SearchStudent from "./search-student";
+import { useEffect, useState } from "react";
 
 const TABLE_HEAD = ["Sno.", "Enrollment Number", "Name", "Email", "Branch", "Action"];
 
 export function StudentCalling({ students }) {
+  console.log(students)
+  const [filteredStudents, setFilteredStudents] = useState(students); // State to hold the filtered books
+
+  // Use effect to update filteredBooks whenever the `books` prop changes
+  useEffect(() => {
+    setFilteredStudents(students);
+  }, [students]);
+
   return (
     <Card className="h-full w-full overflow-scroll ">
        <Typography variant="h4" className="mb-5 p-4 font-medium text-lg border-b-2 border-gray " color="blue-gray">
        <div className="flex flex-1 justify-between items-center">
     <span >Student List </span>
-    <span><Searchbar placeholder="Enter the Student Id"/></span>
+    <SearchStudent students={students} setFilteredStudents={setFilteredStudents}/>
           </div>
   </Typography>
       <table className="w-full min-w-max table-auto text-left">
@@ -85,7 +94,7 @@ export function StudentCalling({ students }) {
           </tr>
         </thead>
         <tbody>
-          {students.map(({ studentRoll, studentName, studentEmail, studentBranch }, index) => {
+          {filteredStudents.map(({ studentRoll, studentName, studentEmail, studentBranch }, index) => {
             const isLast = index === students.length - 1;
             const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 

@@ -32,9 +32,12 @@ import BookModel from "@/model/BookModel";
 import { BookForm } from "@/app/(backend)/admin/book/_components/book-form";
  export async function handleInsertBook(bookName,authorName,bookCategory,bookCount){
       DbConnect();
-      const create = await BookModel.create({bookName,authorName,bookCategory,bookCount})
+
+      console.log(bookCategory);
+      const create = await BookModel.create({bookName,authorName,bookCategory,bookCount,bookPrice})
             
       redirect("/admin/book")
+
 return (
   <div className='flex flex-1 justify-center'>
       <BookForm handleInsertBook={handleInsertBook}/>
