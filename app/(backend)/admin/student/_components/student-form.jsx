@@ -12,6 +12,15 @@ const StudentForm = () => {
     const [studentEmail,setStudentEmail] = useState("");
     const [studentPhone,setStudentPhone] = useState("");
     const [studentBranch,setStudentBranch] = useState("");
+
+    // Reset function to clear all fields
+ const handleReset = () => {
+  setStudentRoll("");
+  setStudentName("");
+  setStudentEmail(""); 
+  setStudentPhone(""); 
+  setStudentBranch(""); 
+};
 return (
   <div className='flex flex-1 flex-col border-2 border-gray p-3'>
   <Typography variant="h4" className='mb-5 font-medium text-lg p-2 border-b-2 border-gray ' color="blue-gray">
@@ -90,10 +99,15 @@ return (
         }}
       />
     </div>
-    
+    <div className="flex flex-1 justify-between items-center gap-2 ">
     <Button  onClick={() => handleInsertStudent(studentRoll,studentName,studentEmail,studentPhone,studentBranch)} className=" mt-2 text-white bg-black rounded-lg px-5 py-3 justify-between items-center " fullWidth>
       Save
     </Button>
+    <Button className=" mt-2 text-white bg-gray-500 rounded-3xl px-1 py-1 justify-between items-center"
+        onClick={handleReset} fullWidth>
+        Reset
+      </Button>
+</div>
 </div>
 )
 }

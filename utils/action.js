@@ -34,7 +34,7 @@ import { BookForm } from "@/app/(backend)/admin/book/_components/book-form";
       DbConnect();
 
       console.log(bookCategory);
-      const create = await BookModel.create({bookName,authorName,bookCategory,bookCount,bookPrice})
+      const create = await BookModel.create({bookName,authorName,bookCategory,bookCount})
             
       redirect("/admin/book")
 
@@ -60,3 +60,9 @@ return (
 
 
  };
+
+
+
+
+
+ 

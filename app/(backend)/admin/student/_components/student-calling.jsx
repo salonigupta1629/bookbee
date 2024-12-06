@@ -54,28 +54,55 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { FaEdit } from "react-icons/fa";
 import SearchStudent from "./search-student";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const TABLE_HEAD = ["Sno.", "Enrollment Number", "Name", "Email", "Branch", "Action"];
 
-export function StudentCalling({ students }) {
+export function StudentCalling({ students}) {
+  const router = useRouter(); 
   console.log(students)
-  const [filteredStudents, setFilteredStudents] = useState(students); // State to hold the filtered books
+  const [filteredStudents, setFilteredStudents] = useState(students); // State to hold the filtered students
 
-  // Use effect to update filteredBooks whenever the `books` prop changes
+  // Use effect to update filteredStudents whenever the `students` prop changes
   useEffect(() => {
+
     setFilteredStudents(students);
   }, [students]);
 
+  const handleDelete = async (studentId) => {
+    try {
+      const response = await fetch(`/api/students/${studentId}`, {
+        method: 'DELETE',
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to delete student');
+      }
+  
+      setFilteredStudents((prevStudents) =>
+        prevStudents.filter((student) => student.studentid !== studentId)
+      );
+  
+      alert(`Student with ID ${studentId} deleted successfully.`);
+    } catch (error) {
+      console.error('Error deleting student:', error);
+      alert('Failed to delete student');
+    }
+    router.push("/admin/student")
+  };
+
+
   return (
     <Card className="h-full w-full overflow-scroll ">
-       <Typography variant="h4" className="mb-5 p-4 font-medium text-lg border-b-2 border-gray " color="blue-gray">
-       <div className="flex flex-1 justify-between items-center">
-    <span >Student List </span>
-    <SearchStudent students={students} setFilteredStudents={setFilteredStudents}/>
-          </div>
-  </Typography>
+      <Typography variant="h4" className="mb-5 p-4 font-medium text-lg border-b-2 border-gray " color="blue-gray">
+        <div className="flex flex-1 justify-between items-center">
+          <span >Student List </span>
+          <SearchStudent students={students} setFilteredStudents={setFilteredStudents} />
+        </div>
+      </Typography>
       <table className="w-full min-w-max table-auto text-left">
         <thead>
+
           <tr>
             {TABLE_HEAD.map((head) => (
               <th
@@ -94,7 +121,7 @@ export function StudentCalling({ students }) {
           </tr>
         </thead>
         <tbody>
-          {filteredStudents.map(({ studentRoll, studentName, studentEmail, studentBranch }, index) => {
+          {filteredStudents.map(({ _id,studentRoll, studentName, studentEmail, studentBranch }, index) => {
             const isLast = index === students.length - 1;
             const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 
@@ -146,13 +173,16 @@ export function StudentCalling({ students }) {
                   </Typography>
                 </td>
                 <td className="p-4 flex gap-4">
-                <Typography as="a" href="#" variant="small" color="blue-gray" className="font-medium">
-                  <FaEdit/>
-                </Typography>
-                <Typography as="a" href="#" variant="small" color="blue-gray" className="font-medium">
-                  <AiOutlineDelete/>
-                </Typography>
-              </td>
+                  <Typography as="a" href="#" variant="small" color="blue-gray" className="font-medium" onClick={() => handleUpdate(_id)} >
+                    <FaEdit />
+                  </Typography>
+                  {/* <Link href={`/admin/student/${_id}`}> */}
+                   <Typography as="a" href="#" variant="small" color="blue-gray" className="font-medium" onClick={() => handleDelete(_id)}> 
+                    <AiOutlineDelete />
+                  </Typography>
+                  {/* </Link> */}
+              
+                </td>
               </tr>
             );
           })}
@@ -161,3 +191,6 @@ export function StudentCalling({ students }) {
     </Card>
   );
 }
+
+
+

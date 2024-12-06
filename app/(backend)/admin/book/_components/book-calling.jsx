@@ -140,17 +140,20 @@
 // }
 
 
-"use client";  // Add this line at the very top of your file
+"use client"
 
 import { useState, useEffect } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { FaEdit } from "react-icons/fa";
 import { Card, Typography } from "@material-tailwind/react";
 import Search from "../../components/search";
+import { useRouter } from "next/navigation";
 
 const TABLE_HEAD = ["Sno.", "BookId", "Title", "Author", "Category", "Count", "Action"];
 
 export function BookCalling({ books }) {
+  const router = useRouter(); 
+
   console.log(books)
   const [filteredBooks, setFilteredBooks] = useState(books); // State to hold the filtered books
 
@@ -158,6 +161,28 @@ export function BookCalling({ books }) {
   useEffect(() => {
     setFilteredBooks(books);
   }, [books]);
+
+  const handleDelete = async (bookId) => {
+    try {
+      const response = await fetch(`/api/books/${bookId}`, {
+        method: 'DELETE',
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to delete book');
+      }
+  
+      setFilteredBooks((prevBooks) =>
+        prevBooks.filter((book) => book.bookid !== bookId)
+      );
+  
+      alert(`Book with ID ${bookId} deleted successfully.`);
+    } catch (error) {
+      console.error('Error deleting book:', error);
+      alert('Failed to delete book');
+    }
+    router.push("/admin/book")
+  };
 
   return (
     <Card className="h-full w-full overflow-scroll ">
@@ -217,7 +242,7 @@ export function BookCalling({ books }) {
                 <Typography as="a" href="#" variant="small" color="blue-gray" className="font-medium">
                   <FaEdit />
                 </Typography>
-                <Typography as="a" href="#" variant="small" color="blue-gray" className="font-medium">
+                <Typography as="a" href="#" variant="small" color="blue-gray" className="font-medium" onClick={() => handleDelete(_id)}>
                   <AiOutlineDelete />
                 </Typography>
               </td>

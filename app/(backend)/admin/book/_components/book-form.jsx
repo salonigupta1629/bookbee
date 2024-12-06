@@ -92,6 +92,13 @@ DbConnect();
     const [bookCategory,setBookCategory] = useState("");
     const [bookCount,setBookCount] = useState("");
 
+ // Reset function to clear all fields
+ const handleReset = () => {
+  setBookName("");
+  setAuthorName("");
+  setBookCategory(""); // Reset the select input
+  setBookCount(""); // Reset the number input
+};
     return (
        <Card color="transparent" shadow={false} className='flex flex-1 flex-col border-2 border-gray p-5' >
         <Typography variant="h4" color="blue-gray" className="pb-4 border-b-2 border-gray font-medium text-lg">
@@ -142,7 +149,6 @@ DbConnect();
             </Select>
           </div> 
 
-
               <Typography variant="h6" color="blue-gray" className="-mb-3">
               Count
             </Typography>
@@ -157,9 +163,16 @@ DbConnect();
               }}
             />
           </div>
-          <Button className="mt-6 text-white bg-black rounded-lg px-5 py-3 justify-between items-center " onClick={() => handleInsertBook(bookName,authorName,bookCategory,bookCount)} fullWidth>
+          <div className="flex flex-1 justify-between items-center gap-2 ">
+          <Button className="mt-6 text-white bg-black rounded-lg px-14 py-3  justify-between items-center " onClick={() => handleInsertBook(bookName,authorName,bookCategory,bookCount)} fullWidth>
             Save
           </Button>
+          <Button className="mt-6 text-white bg-gray-500 rounded-3xl px-1 py-1 justify-between items-center"
+        onClick={handleReset} fullWidth>
+        Reset
+      </Button>
+      </div>
+
       </Card>
     );
   }

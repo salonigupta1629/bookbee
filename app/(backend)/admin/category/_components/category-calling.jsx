@@ -7,7 +7,7 @@ const CategoryCalling = async () => {
     DbConnect();
     
     const categories = await Category.find({});
-    console.log(categories)
+    // console.log(categories)
     return (
         <div className='flex flex-col w-[1400px]'>
     <p className='  mb-2 p-4 text-xl font-sans text-left font-bold'> Category List</p>

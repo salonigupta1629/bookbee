@@ -1,13 +1,24 @@
-import React from 'react'
-import Card from './_components/card'
+"use client"
+import React, { useState } from 'react'
+import  BookCard from './_components/book-card'
+import StudentCard from './_components/student-card'
+import SummaryDetail from './_components/summary-detail';
 
-const AssignBook = () => {
+const AssignBook =  () => {
+  const [studentData,setStudentData]= useState(null);
+  console.log(studentData);
+  const [bookData,setBookData]= useState([]);
+
   return (
-    <div className='flex flex-1'>
-<Card title="Student" subtitle1="Enrollment :" subtitle2="Branch :" subtitle3=" Name :" subtitle4="Semester :" />
-<Card title="Book" subtitle1="BookId :" subtitle2="Author :" subtitle3=" Title :" subtitle4="Count :" />
+    <div className='flex flex-1 '>
+    <div className='flex flex-col w-6/12'>
+       <StudentCard setStudentData={setStudentData} />
+       <BookCard setBookData={setBookData} />
       </div>
-
+    <div className='flex flex-col w-6/12'>
+<SummaryDetail studentData={studentData} bookData={bookData}  />
+</div>
+</div>
   )
 }
 
